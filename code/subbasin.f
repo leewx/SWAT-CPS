@@ -493,7 +493,6 @@
       ihru = ihru + 1
       end do
       
-      !! 先稍微小写一下思路：
       !! 坡度数据读到 slope_hru(ihru) 中，read_matrix(ihru)储存一个邻接矩阵，i,j从0开始读取矩阵
       !! 
       !! 从这里开始，对Pot进行平均，刚刚的计算已经将所有的pot_vol全部计算完毕，现需要一均值 
@@ -536,14 +535,8 @@
                   ! 此处为K的修正
                   !利用ROSETTA计算每一种土壤的van模型参数
                   !晒田期取消水面的蒸发
-                  K_lwx(iihru) =  exp(1.9582 + 0.0308*(sol_sand(1,iihru))
-     &            - 0.6142 * sol_bd(1,iihru) - 0.01566 * sol_cbn(1,iihru)* 10) * 1.74 *10/24 
-                  K_lwx_nowater(iihru) = exp(1.9582 + 0.0308*(sol_sand(1,iihru))
-     &            - 0.6142 * sol_bd(1,iihru) - 0.01566 * sol_cbn(1,iihru)*10) * lwx_kr(iihru)*1.74*10/24
-                 if (sol_sand(1,iihru) == 0) then 
                      K_lwx(iihru) = sol_k(1,iihru) *1.74*24
                      K_lwx_nowater(iihru) = K_lwx(iihru) * lwx_kr(iihru)
-                 end if 
                  if (H_pot_max_idl(days_pot) < 0.2 .and. H_pot_min_idl(days_pot) < 0.2 
      &           .and. H_pot_max_idl(days_pot) > 0 .and. H_pot_min_idl(days_pot) > 0) then 
                   K_lwx(iihru) = K_lwx_nowater(iihru) !!如果晒田，则开始非饱和
